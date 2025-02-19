@@ -1,0 +1,27 @@
+import { ApiProperty } from '@nestjs/swagger';
+
+import { IsString, IsNotEmpty } from 'class-validator';
+
+export class CreateEquipmentDto {
+    @ApiProperty({
+        description: 'Производитель оборудования',
+    })
+    @IsString()
+    @IsNotEmpty()
+    manufacturer: string;
+
+    @ApiProperty({ description: 'Модель оборудования' })
+    @IsString()
+    @IsNotEmpty()
+    model: string;
+
+    @ApiProperty({ description: 'Инновационный номер' })
+    @IsString()
+    @IsNotEmpty()
+    innovationNumber: string;
+
+    @ApiProperty({ description: 'Серийный номер' })
+    @IsString()
+    @IsNotEmpty()
+    serialNumber: string;
+}
