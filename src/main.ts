@@ -7,11 +7,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
-    const config = new DocumentBuilder()
-        .setTitle('Api')
-        .setDescription('Api')
-        .setVersion('1.0')
-        .build();
+    const config = new DocumentBuilder().setTitle('Api').setDescription('Api').setVersion('1.0').build();
 
     const documentFactory = () => SwaggerModule.createDocument(app, config);
 

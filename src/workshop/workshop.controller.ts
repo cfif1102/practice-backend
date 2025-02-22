@@ -1,12 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Post,
-    Put,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { CreateWorkshopDto } from './dto/create-workshop.dto';
@@ -55,10 +47,7 @@ export class WorkshopController {
     })
     @ApiResponse({ status: 404, description: 'Цех не найден' })
     @ApiParam({ name: 'id', type: Number, description: 'ID цеха' })
-    update(
-        @Param('id') id: number,
-        @Body() updateWorkshopDto: UpdateWorkshopDto,
-    ) {
+    update(@Param('id') id: number, @Body() updateWorkshopDto: UpdateWorkshopDto) {
         return this.workshopService.update(id, updateWorkshopDto);
     }
 

@@ -1,12 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Patch,
-    Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { CreateEquipmentDto } from './dto/create-equipment.dto';
@@ -63,10 +55,7 @@ export class EquipmentController {
     })
     @ApiResponse({ status: 404, description: 'Оборудование не найдено' })
     @ApiParam({ name: 'id', type: Number, description: 'ID оборудования' })
-    update(
-        @Param('id') id: number,
-        @Body() updateEquipmentDto: UpdateEquipmentDto,
-    ) {
+    update(@Param('id') id: number, @Body() updateEquipmentDto: UpdateEquipmentDto) {
         return this.equipmentService.update(id, updateEquipmentDto);
     }
 

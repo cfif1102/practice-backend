@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Repair } from '@repair/entities/repair.entity';
+import { Workshop } from '@workshop/entities/workshop.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Equipment {
@@ -6,14 +8,29 @@ export class Equipment {
     id: number;
 
     @Column()
+    name: string;
+
+    @Column()
     manufacturer: string;
+
+    @Column()
+    type: string;
 
     @Column()
     model: string;
 
-    @Column({ unique: true })
+    @Column()
     innovationNumber: string;
 
-    @Column({ unique: true })
+    @Column()
     serialNumber: string;
+
+    @Column()
+    workHours: number;
+
+    @OneToMany(() => Repair, (repair) => repair.equipment)
+    repairs: Repair[];
+
+    @ManyToOne(() => Workshop, (workshop) => workshop.equipments)
+    workshop: Workshop;
 }

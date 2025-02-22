@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { WorkshopService } from '@workshop/workshop.service';
 import { DataSource, Repository } from 'typeorm';
 
 import { CreateEquipmentDto } from './dto/create-equipment.dto';
@@ -10,12 +11,16 @@ import { Equipment } from './entities/equipment.entity';
 export class EquipmentService {
     private readonly equipmentRepository: Repository<Equipment>;
 
-    constructor(private readonly dataSource: DataSource) {
+    constructor(
+        private readonly dataSource: DataSource,
+        private readonly workshopService: WorkshopService,
+    ) {
         this.equipmentRepository = dataSource.getRepository(Equipment);
     }
 
     async create(createEquipmentDto: CreateEquipmentDto) {
-        const equipment = this.equipmentRepository.create(createEquipmentDto);
+        const workshop = await this.workshopService.findOne(createEquipmentDto.workshopId);
+        const equipment = this.equipmentRepository.create({ ...createEquipmentDto, workshop });
 
         return await this.equipmentRepository.save(equipment);
     }
@@ -38,6 +43,12 @@ export class EquipmentService {
 
     async update(id: number, updateEquipmentDto: UpdateEquipmentDto) {
         const equipment = await this.findOne(id);
+
+        if (updateEquipmentDto.workshopId) {
+            const workshop = await this.workshopService.findOne(updateEquipmentDto.workshopId);
+
+            equipment.workshop = workshop;
+        }
 
         Object.assign(equipment, updateEquipmentDto);
 

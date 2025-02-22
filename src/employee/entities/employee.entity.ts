@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Repair } from '@repair/entities/repair.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class Employee {
@@ -13,4 +14,7 @@ export class Employee {
 
     @Column()
     middlename: string;
+
+    @OneToMany(() => Repair, (repair) => repair.employee)
+    repairs: Repair[];
 }

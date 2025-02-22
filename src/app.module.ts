@@ -1,11 +1,13 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { config } from '@config';
-import { EmployeeModule } from '@employee';
-import { EquipmentModule } from '@equipment';
-import { TypeormModule } from '@typeorm';
-import { WorkshopModule } from '@workshop';
+import { config } from '@config/config';
+import { EmployeeModule } from '@employee/employee.module';
+import { EquipmentModule } from '@equipment/equipment.module';
+import { FaultModule } from '@fault/fault.module';
+import { RepairModule } from '@repair/repair.module';
+import { TypeormModule } from '@typeorm/typeorm.module';
+import { WorkshopModule } from '@workshop/workshop.module';
 import * as cookieParser from 'cookie-parser';
 
 @Module({
@@ -18,6 +20,8 @@ import * as cookieParser from 'cookie-parser';
         EquipmentModule,
         EmployeeModule,
         WorkshopModule,
+        RepairModule,
+        FaultModule,
     ],
     controllers: [],
     providers: [],

@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 
-import { DbConfig } from '@types';
+import { DbConfig } from '@@types/config.types';
 import { DataSource } from 'typeorm';
 
 export const provider = {

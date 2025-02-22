@@ -1,4 +1,4 @@
-import { Config } from '@types';
+import { Config } from '@@types/config.types';
 import { cleanEnv, str } from 'envalid';
 
 export const config = (): Config => {

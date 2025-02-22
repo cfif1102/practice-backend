@@ -18,12 +18,14 @@
         "strictBindCallApply": false,
         "noFallthroughCasesInSwitch": false,
         "paths": {
-            "@config": ["./src/config"],
-            "@typeorm": ["./src/typeorm"],
-            "@types": ["./src/types"],
-            "@equipment": ["./src/equipment"],
-            "@employee": ["./src/employee"],
-            "@workshop": ["./src/workshop"]
+            "@config/*": ["./src/config/*"],
+            "@typeorm/*": ["./src/typeorm/*"],
+            "@@types/*": ["./src/types/*"],
+            "@equipment/*": ["./src/equipment/*"],
+            "@employee/*": ["./src/employee/*"],
+            "@workshop/*": ["./src/workshop/*"],
+            "@repair/*": ["./src/repair/*"],
+            "@fault/*": ["./src/fault/*"]
         }
     }
 }

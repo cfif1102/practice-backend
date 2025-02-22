@@ -1,12 +1,4 @@
-import {
-    Controller,
-    Post,
-    Body,
-    Get,
-    Param,
-    Put,
-    Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Put, Delete } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
 import { CreateEmployeeDto } from './dto/create-employee.dto';
@@ -63,10 +55,7 @@ export class EmployeeController {
     })
     @ApiResponse({ status: 404, description: 'Сотрудник не найден' })
     @ApiParam({ name: 'id', type: Number, description: 'ID сотрудника' })
-    update(
-        @Param('id') id: number,
-        @Body() updateEmployeeDto: UpdateEmployeeDto,
-    ) {
+    update(@Param('id') id: number, @Body() updateEmployeeDto: UpdateEmployeeDto) {
         return this.employeeService.update(id, updateEmployeeDto);
     }
 

@@ -1,8 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsInt } from 'class-validator';
 
 export class CreateEquipmentDto {
+    @ApiProperty({ description: 'Название оборудования' })
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
     @ApiProperty({
         description: 'Производитель оборудования',
     })
@@ -24,4 +29,17 @@ export class CreateEquipmentDto {
     @IsString()
     @IsNotEmpty()
     serialNumber: string;
+
+    @ApiProperty({ description: 'Тип, марка' })
+    @IsString()
+    @IsNotEmpty()
+    type: string;
+
+    @ApiProperty({ description: 'Рабочий фонд' })
+    @IsInt()
+    workHours: number;
+
+    @ApiProperty({ description: 'ID цеха' })
+    @IsInt()
+    workshopId: number;
 }
