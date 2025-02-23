@@ -1,7 +1,6 @@
-import { Controller, Post, Body, Get, Param, Put, Delete } from '@nestjs/common';
+import { Controller, Body, Get, Param, Put, Delete } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 
-import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { EmployeeService } from './employee.service';
 import { Employee } from './entities/employee.entity';
@@ -10,17 +9,6 @@ import { Employee } from './entities/employee.entity';
 @Controller('employees')
 export class EmployeeController {
     constructor(private readonly employeeService: EmployeeService) {}
-
-    @Post()
-    @ApiOperation({ summary: 'Создать нового сотрудника' })
-    @ApiResponse({
-        status: 201,
-        description: 'Сотрудник успешно создан',
-        type: Employee,
-    })
-    create(@Body() createEmployeeDto: CreateEmployeeDto) {
-        return this.employeeService.create(createEmployeeDto);
-    }
 
     @Get()
     @ApiOperation({ summary: 'Получить всех сотрудников' })

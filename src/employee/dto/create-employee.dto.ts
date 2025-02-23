@@ -3,6 +3,16 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateEmployeeDto {
+    @ApiProperty({ description: 'Логин сотрудника' })
+    @IsString()
+    @IsNotEmpty()
+    login: string;
+
+    @ApiProperty({ description: 'Пароль сотрудника' })
+    @IsString()
+    @IsNotEmpty()
+    password: string;
+
     @ApiProperty({ description: 'Имя сотрудника' })
     @IsString()
     @IsNotEmpty()

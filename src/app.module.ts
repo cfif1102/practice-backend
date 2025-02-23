@@ -8,6 +8,7 @@ import { FaultModule } from '@fault/fault.module';
 import { RepairModule } from '@repair/repair.module';
 import { TypeormModule } from '@typeorm/typeorm.module';
 import { WorkshopModule } from '@workshop/workshop.module';
+import { AuthModule } from './auth/auth.module';
 import * as cookieParser from 'cookie-parser';
 
 @Module({
@@ -22,6 +23,7 @@ import * as cookieParser from 'cookie-parser';
         WorkshopModule,
         RepairModule,
         FaultModule,
+        AuthModule,
     ],
     controllers: [],
     providers: [],

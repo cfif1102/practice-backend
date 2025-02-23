@@ -6,6 +6,12 @@ export class Employee {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column({ unique: true })
+    login: string;
+
+    @Column()
+    password: string;
+
     @Column()
     name: string;
 

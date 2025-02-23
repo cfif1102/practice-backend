@@ -24,6 +24,10 @@ export class EmployeeService {
         return this.employeeRepository.find();
     }
 
+    findByLogin(login: string) {
+        return this.employeeRepository.findOne({ where: { login } });
+    }
+
     async findOne(id: number) {
         const employee = await this.employeeRepository.findOne({
             where: { id },

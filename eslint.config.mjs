@@ -34,6 +34,8 @@ export default tseslint.config(
             '@typescript-eslint/no-explicit-any': 'off',
             '@typescript-eslint/no-floating-promises': 'warn',
             '@typescript-eslint/no-unsafe-argument': 'warn',
+            '@typescript-eslint/no-unsafe-assignment': 'warn',
+            '@typescript-eslint/no-unsafe-return': 'warn',
             'prettier/prettier': [
                 'error',
                 {
@@ -43,15 +45,7 @@ export default tseslint.config(
             'import/order': [
                 'error',
                 {
-                    groups: [
-                        'builtin',
-                        'external',
-                        'parent',
-                        'sibling',
-                        'index',
-                        'object',
-                        'type',
-                    ],
+                    groups: ['builtin', 'external', 'parent', 'sibling', 'index', 'object', 'type'],
                     pathGroups: [
                         {
                             pattern: '@nestjs/**',

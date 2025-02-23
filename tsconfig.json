@@ -25,7 +25,9 @@
             "@employee/*": ["./src/employee/*"],
             "@workshop/*": ["./src/workshop/*"],
             "@repair/*": ["./src/repair/*"],
-            "@fault/*": ["./src/fault/*"]
+            "@fault/*": ["./src/fault/*"],
+            "@common/*": ["./src/common/*"],
+            "@auth/*": ["./src/auth/*"]
         }
     }
 }
