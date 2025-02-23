@@ -1,9 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+import { Roles } from '@@types/auth.types';
+import { RolesAccept } from '@auth/decorators/roles.decorator';
+import { RolesGuard } from '@auth/guards/roles.guard';
+import { Serialize } from '@common/decorators/serialize.decorator';
+import { PaginationDto } from '@common/dto/pagination.dto';
+
 import { CreateRepairDto } from './dto/create-repair.dto';
+import { RepairPaginatedDto } from './dto/repair-paginated.dto';
+import { RepairDto } from './dto/repair.dto';
 import { UpdateRepairDto } from './dto/update-repair.dto';
-import { Repair } from './entities/repair.entity';
 import { RepairService } from './repair.service';
 
 @ApiTags('Repair')
@@ -16,10 +24,10 @@ export class RepairController {
     @ApiResponse({
         status: 200,
         description: 'Список всех ремонтов',
-        type: [Repair],
+        type: RepairPaginatedDto,
     })
-    findAll() {
-        return this.repairService.findMany();
+    findAll(@Query() paginationDto: PaginationDto) {
+        return this.repairService.findAll(paginationDto);
     }
 
     @Get(':id')
@@ -27,9 +35,10 @@ export class RepairController {
     @ApiResponse({
         status: 200,
         description: 'Найденная запись о ремонте',
-        type: Repair,
+        type: RepairDto,
     })
     @ApiResponse({ status: 404, description: 'Ремонт не найден' })
+    @Serialize(RepairDto)
     findOne(@Param('id') id: number) {
         return this.repairService.findOne(id);
     }
@@ -39,9 +48,11 @@ export class RepairController {
     @ApiResponse({
         status: 201,
         description: 'Запись о ремонте успешно создана',
-        type: Repair,
+        type: RepairDto,
     })
     @ApiResponse({ status: 400, description: 'Неверные входные данные' })
+    @Serialize(RepairDto)
+    @UseGuards(AuthGuard('jwt'))
     create(@Body() createRepairDto: CreateRepairDto) {
         return this.repairService.create(createRepairDto);
     }
@@ -51,10 +62,12 @@ export class RepairController {
     @ApiResponse({
         status: 200,
         description: 'Обновленная запись о ремонте',
-        type: Repair,
+        type: RepairDto,
     })
     @ApiResponse({ status: 404, description: 'Ремонт не найден' })
     @ApiResponse({ status: 400, description: 'Неверные входные данные' })
+    @Serialize(RepairDto)
+    @UseGuards(AuthGuard('jwt'))
     update(@Param('id') id: number, @Body() updateRepairDto: UpdateRepairDto) {
         return this.repairService.update(id, updateRepairDto);
     }
@@ -63,6 +76,8 @@ export class RepairController {
     @ApiOperation({ summary: 'Удалить запись о ремонте' })
     @ApiResponse({ status: 204, description: 'Ремонт успешно удален' })
     @ApiResponse({ status: 404, description: 'Ремонт не найден' })
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @RolesAccept(Roles.Admin)
     async delete(@Param('id') id: number) {
         await this.repairService.delete(id);
         return { message: 'Ремонт успешно удален' };

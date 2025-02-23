@@ -17,14 +17,14 @@ export class Repair {
     @Column({ type: 'text' })
     detectedFault: string;
 
-    @ManyToOne(() => Employee, (employee) => employee.repairs)
+    @ManyToOne(() => Employee, (employee) => employee.repairs, { eager: true })
     @JoinColumn({ name: 'employeeId' })
     employee: Employee;
 
     @Column()
     employeeId: number;
 
-    @ManyToOne(() => Equipment, (equipment) => equipment.repairs)
+    @ManyToOne(() => Equipment, (equipment) => equipment.repairs, { eager: true })
     @JoinColumn({ name: 'equipmentId' })
     equipment: Equipment;
 

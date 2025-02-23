@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { PaginationDto } from '@common/dto/pagination.dto';
 import { Repository, DataSource } from 'typeorm';
 
 import { CreateWorkshopDto } from './dto/create-workshop.dto';
 import { UpdateWorkshopDto } from './dto/update-workshop.dto';
+import { WorkshopPaginatedDto } from './dto/workshop-paginated.dto';
 import { Workshop } from './entities/workshop.entity';
 
 @Injectable()
@@ -20,8 +22,14 @@ export class WorkshopService {
         return await this.workshopRepository.save(workshop);
     }
 
-    async findAll() {
-        return await this.workshopRepository.find();
+    async findAll(paginationDto: PaginationDto) {
+        const { pageSize, offset } = paginationDto;
+        const [items, count] = await this.workshopRepository.findAndCount({
+            skip: offset,
+            take: pageSize,
+        });
+
+        return new WorkshopPaginatedDto(items, count, paginationDto);
     }
 
     async findOne(id: number) {

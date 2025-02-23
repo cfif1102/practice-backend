@@ -1,8 +1,16 @@
 import { Body, Controller, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBadRequestResponse, ApiOkResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse,
+    ApiCreatedResponse,
+    ApiOkResponse,
+    ApiTags,
+    ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 
+import { Serialize } from '@common/decorators/serialize.decorator';
 import { CreateEmployeeDto } from '@employee/dto/create-employee.dto';
+import { EmployeeDto } from '@employee/dto/employee.dto';
 import { Response } from 'express';
 
 import { AuthService } from './auth.service';
@@ -17,6 +25,8 @@ export class AuthController {
     @ApiBadRequestResponse({
         description: 'Incorrect login or password | Incorrect input data',
     })
+    @ApiCreatedResponse({ type: EmployeeDto })
+    @Serialize(EmployeeDto)
     async signIn(@Body() signInDto: SignInDto, @Res({ passthrough: true }) response: Response) {
         const { employee, token } = await this.authService.signIn(signInDto);
 
@@ -32,6 +42,8 @@ export class AuthController {
     @ApiBadRequestResponse({
         description: 'Email is taken | Incorrect input data',
     })
+    @ApiCreatedResponse({ type: EmployeeDto })
+    @Serialize(EmployeeDto)
     async signUp(@Body() createEmployeeDto: CreateEmployeeDto, @Res({ passthrough: true }) response: Response) {
         const { employee, token } = await this.authService.signUp(createEmployeeDto);
 

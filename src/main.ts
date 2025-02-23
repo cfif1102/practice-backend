@@ -1,6 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+import { SerializeInterceptor } from '@common/interceptors/serialize.interceptor';
 
 import { AppModule } from './app.module';
 
@@ -18,6 +20,7 @@ async function bootstrap() {
         credentials: true,
     });
     app.useGlobalPipes(new ValidationPipe({ transform: true }));
+    app.useGlobalInterceptors(new SerializeInterceptor(new Reflector()));
 
     await app.listen(3000);
 }

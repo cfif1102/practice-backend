@@ -1,3 +1,4 @@
+import { Roles } from '@@types/auth.types';
 import { Repair } from '@repair/entities/repair.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
@@ -23,4 +24,7 @@ export class Employee {
 
     @OneToMany(() => Repair, (repair) => repair.employee)
     repairs: Repair[];
+
+    @Column({ default: Roles.Employee })
+    role: Roles;
 }

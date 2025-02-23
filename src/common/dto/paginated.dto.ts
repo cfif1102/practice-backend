@@ -6,8 +6,8 @@ import { PaginationDto } from './pagination.dto';
 
 type ClassConstructor<T> = new (...args: any[]) => T;
 
-export class PaginatedDto<T> {
-    @ApiProperty({ isArray: true })
+export class PaginatedDto<T, K> {
+    @ApiProperty({ type: () => [Object] })
     @Type(() => Object)
     items: T[];
 
@@ -17,7 +17,7 @@ export class PaginatedDto<T> {
     @ApiProperty()
     prevPage?: number;
 
-    constructor(dto: ClassConstructor<T>, items: object[], count: number, paginationDto: PaginationDto) {
+    constructor(dto: ClassConstructor<T>, items: K[], count: number, paginationDto: PaginationDto) {
         this.items = items.map((item) => plainToInstance(dto, item, { excludeExtraneousValues: true }));
 
         const { offset, page, pageSize } = paginationDto;

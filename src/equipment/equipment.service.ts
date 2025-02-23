@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { PaginationDto } from '@common/dto/pagination.dto';
 import { WorkshopService } from '@workshop/workshop.service';
 import { DataSource, Repository } from 'typeorm';
 
 import { CreateEquipmentDto } from './dto/create-equipment.dto';
+import { EquipmentPaginatedDto } from './dto/equipment-paginated.dto';
 import { UpdateEquipmentDto } from './dto/update-equipment.dto';
 import { Equipment } from './entities/equipment.entity';
 
@@ -15,7 +17,7 @@ export class EquipmentService {
         private readonly dataSource: DataSource,
         private readonly workshopService: WorkshopService,
     ) {
-        this.equipmentRepository = dataSource.getRepository(Equipment);
+        this.equipmentRepository = this.dataSource.getRepository(Equipment);
     }
 
     async create(createEquipmentDto: CreateEquipmentDto) {
@@ -25,8 +27,18 @@ export class EquipmentService {
         return await this.equipmentRepository.save(equipment);
     }
 
-    async findAll() {
-        return await this.equipmentRepository.find();
+    async findAll(paginationDto: PaginationDto) {
+        const { pageSize, offset } = paginationDto;
+        const [items, count] = await this.equipmentRepository.findAndCount({
+            skip: offset,
+            take: pageSize,
+        });
+
+        const dto = new EquipmentPaginatedDto(items, count, paginationDto);
+
+        dto.items = [];
+
+        return dto;
     }
 
     async findOne(id: number) {

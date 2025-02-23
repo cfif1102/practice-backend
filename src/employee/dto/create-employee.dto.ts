@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+import { Roles } from '@@types/auth.types';
 import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateEmployeeDto {
@@ -26,4 +27,6 @@ export class CreateEmployeeDto {
     @ApiProperty({ description: 'Отчество сотрудника' })
     @IsString()
     middlename: string;
+
+    role?: Roles = Roles.Employee;
 }

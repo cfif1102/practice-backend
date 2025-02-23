@@ -8,6 +8,11 @@ export const config = (): Config => {
         JWT_ACCESS_TOKEN_EXPIRE: str(),
         JWT_REFRESH_TOKEN_SECRET: str(),
         JWT_REFRESH_TOKEN_EXPIRE: str(),
+        ADMIN_LOGIN: str(),
+        ADMIN_PASSWORD: str(),
+        ADMIN_NAME: str(),
+        ADMIN_SURNAME: str(),
+        ADMIN_MIDDLENAME: str(),
     });
 
     return {
@@ -23,6 +28,13 @@ export const config = (): Config => {
                 secret: env.JWT_REFRESH_TOKEN_SECRET,
                 expire: env.JWT_REFRESH_TOKEN_EXPIRE,
             },
+        },
+        admin: {
+            login: env.ADMIN_LOGIN,
+            password: env.ADMIN_PASSWORD,
+            name: env.ADMIN_NAME,
+            surname: env.ADMIN_SURNAME,
+            middlename: env.ADMIN_MIDDLENAME,
         },
     };
 };

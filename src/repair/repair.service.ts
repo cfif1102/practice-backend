@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { PaginationDto } from '@common/dto/pagination.dto';
 import { EmployeeService } from '@employee/employee.service';
 import { EquipmentService } from '@equipment/equipment.service';
 import { FaultService } from '@fault/fault.service';
 import { DataSource, Repository } from 'typeorm';
 
 import { CreateRepairDto } from './dto/create-repair.dto';
+import { RepairPaginatedDto } from './dto/repair-paginated.dto';
 import { UpdateRepairDto } from './dto/update-repair.dto';
 import { Repair } from './entities/repair.entity';
 
@@ -32,8 +34,14 @@ export class RepairService {
         return repair;
     }
 
-    findMany() {
-        return this.repairRepository.find();
+    async findAll(paginationDto: PaginationDto) {
+        const { pageSize, offset } = paginationDto;
+        const [items, count] = await this.repairRepository.findAndCount({
+            skip: offset,
+            take: pageSize,
+        });
+
+        return new RepairPaginatedDto(items, count, paginationDto);
     }
 
     async create(createRepairDto: CreateRepairDto) {

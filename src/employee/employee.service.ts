@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { PaginationDto } from '@common/dto/pagination.dto';
 import { DataSource, Repository } from 'typeorm';
 
 import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { EmployeePaginatedDto } from './dto/employee-paginated.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from './entities/employee.entity';
 
@@ -20,8 +22,14 @@ export class EmployeeService {
         return await this.employeeRepository.save(employee);
     }
 
-    findAll() {
-        return this.employeeRepository.find();
+    async findAll(paginationDto: PaginationDto) {
+        const { pageSize, offset } = paginationDto;
+        const [items, count] = await this.employeeRepository.findAndCount({
+            skip: offset,
+            take: pageSize,
+        });
+
+        return new EmployeePaginatedDto(items, count, paginationDto);
     }
 
     findByLogin(login: string) {

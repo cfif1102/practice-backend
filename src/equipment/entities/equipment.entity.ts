@@ -31,6 +31,6 @@ export class Equipment {
     @OneToMany(() => Repair, (repair) => repair.equipment)
     repairs: Repair[];
 
-    @ManyToOne(() => Workshop, (workshop) => workshop.equipments)
+    @ManyToOne(() => Workshop, (workshop) => workshop.equipments, { eager: true })
     workshop: Workshop;
 }
