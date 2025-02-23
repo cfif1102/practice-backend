@@ -34,11 +34,7 @@ export class EquipmentService {
             take: pageSize,
         });
 
-        const dto = new EquipmentPaginatedDto(items, count, paginationDto);
-
-        dto.items = [];
-
-        return dto;
+        return new EquipmentPaginatedDto(items, count, paginationDto);
     }
 
     async findOne(id: number) {

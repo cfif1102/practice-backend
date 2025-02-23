@@ -6,7 +6,7 @@ export class Fault {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ type: 'text' })
+    @Column()
     description: string;
 
     @ManyToOne(() => Repair, (repair) => repair.faults)

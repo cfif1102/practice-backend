@@ -12,8 +12,8 @@ export const provider = {
         const dataSource = new DataSource({
             type: 'sqlite',
             database: dbConfig.database,
-            synchronize: true,
             entities: [`${__dirname}/../**/**.entity{.ts,.js}`],
+            synchronize: true,
         });
 
         await dataSource.initialize();

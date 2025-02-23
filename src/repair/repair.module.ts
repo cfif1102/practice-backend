@@ -11,5 +11,6 @@ import { RepairService } from './repair.service';
     controllers: [RepairController],
     providers: [RepairService],
     imports: [EmployeeModule, FaultModule, EquipmentModule],
+    exports: [RepairService],
 })
 export class RepairModule {}

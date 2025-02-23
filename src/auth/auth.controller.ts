@@ -4,6 +4,7 @@ import {
     ApiBadRequestResponse,
     ApiCreatedResponse,
     ApiOkResponse,
+    ApiOperation,
     ApiTags,
     ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -22,6 +23,7 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('sign-in')
+    @ApiOperation({ summary: 'Вход в аккаунт' })
     @ApiBadRequestResponse({
         description: 'Incorrect login or password | Incorrect input data',
     })
@@ -39,6 +41,7 @@ export class AuthController {
     }
 
     @Post('sign-up')
+    @ApiOperation({ summary: 'Регистрация' })
     @ApiBadRequestResponse({
         description: 'Email is taken | Incorrect input data',
     })
@@ -56,6 +59,7 @@ export class AuthController {
     }
 
     @Put('sign-out')
+    @ApiOperation({ summary: 'Выход из аккаунта' })
     @ApiOkResponse({ description: 'User signed out' })
     @ApiUnauthorizedResponse({ description: 'User not authorized' })
     @UseGuards(AuthGuard('jwt'))
