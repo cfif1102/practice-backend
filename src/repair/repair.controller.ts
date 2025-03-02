@@ -1,6 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBadRequestResponse,
+    ApiNotFoundResponse,
+    ApiOkResponse,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger';
 
 import { Roles } from '@@types/auth.types';
 import { RolesAccept } from '@auth/decorators/roles.decorator';
@@ -15,11 +22,20 @@ import { UpdateRepairDto } from './dto/update-repair.dto';
 import { RepairService } from './repair.service';
 
 @ApiTags('Repair')
-@Controller('repairs')
+@Controller()
 export class RepairController {
     constructor(private readonly repairService: RepairService) {}
 
-    @Get()
+    @Get('/equipments/:equipmentId/repairs')
+    @ApiOperation({ summary: 'Получить записи о ремонтах у оборудования' })
+    @ApiOkResponse({ description: 'Список ремонтов', type: RepairPaginatedDto })
+    @ApiNotFoundResponse({ description: 'Оборудование не было найдено' })
+    @ApiBadRequestResponse({ description: 'Неверные данные' })
+    findByEquipments(@Param('equipmentId') equipmentId: number, @Query() paginationDto: PaginationDto) {
+        return this.repairService.findByEquipment(equipmentId, paginationDto);
+    }
+
+    @Get('/repairs')
     @ApiOperation({ summary: 'Получить все записи о ремонтах' })
     @ApiResponse({
         status: 200,
@@ -30,7 +46,7 @@ export class RepairController {
         return this.repairService.findAll(paginationDto);
     }
 
-    @Get(':id')
+    @Get('/repairs/:id')
     @ApiOperation({ summary: 'Получить запись о ремонте по ID' })
     @ApiResponse({
         status: 200,
@@ -43,7 +59,7 @@ export class RepairController {
         return this.repairService.findOne(id);
     }
 
-    @Post()
+    @Post('/repairs')
     @ApiOperation({ summary: 'Создать новую запись о ремонте' })
     @ApiResponse({
         status: 201,
@@ -57,7 +73,7 @@ export class RepairController {
         return this.repairService.create(createRepairDto);
     }
 
-    @Put(':id')
+    @Put('/repairs/:id')
     @ApiOperation({ summary: 'Обновить запись о ремонте' })
     @ApiResponse({
         status: 200,
@@ -72,7 +88,7 @@ export class RepairController {
         return this.repairService.update(id, updateRepairDto);
     }
 
-    @Delete(':id')
+    @Delete('/repairs/:id')
     @ApiOperation({ summary: 'Удалить запись о ремонте' })
     @ApiResponse({ status: 204, description: 'Ремонт успешно удален' })
     @ApiResponse({ status: 404, description: 'Ремонт не найден' })

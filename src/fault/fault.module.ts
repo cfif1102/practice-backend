@@ -6,5 +6,6 @@ import { FaultService } from './fault.service';
     controllers: [],
     providers: [FaultService],
     exports: [FaultService],
+    imports: [],
 })
 export class FaultModule {}

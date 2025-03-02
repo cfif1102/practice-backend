@@ -4,7 +4,7 @@ import { PaginationDto } from '@common/dto/pagination.dto';
 import { EmployeeService } from '@employee/employee.service';
 import { EquipmentService } from '@equipment/equipment.service';
 import { FaultService } from '@fault/fault.service';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, LessThan, Repository } from 'typeorm';
 
 import { CreateRepairDto } from './dto/create-repair.dto';
 import { RepairPaginatedDto } from './dto/repair-paginated.dto';
@@ -22,6 +22,44 @@ export class RepairService {
         private readonly equipmentService: EquipmentService,
     ) {
         this.repairRepository = this.dataSource.getRepository(Repair);
+    }
+
+    async findOneRepairWithFaults(id: number) {
+        const repair = await this.repairRepository.findOne({
+            where: { id },
+            relations: {
+                faults: true,
+            },
+        });
+
+        if (!repair) {
+            throw new NotFoundException('Запись о ремонте не найдена.');
+        }
+
+        const pred = await this.repairRepository.findOne({
+            where: { id, startDate: LessThan(repair.startDate) },
+            relations: {
+                faults: true,
+            },
+            order: {
+                startDate: 'ASC',
+            },
+        });
+
+        return { repair, pred };
+    }
+
+    async findByEquipment(id: number, paginationDto: PaginationDto) {
+        await this.equipmentService.findOne(id);
+
+        const { pageSize, offset } = paginationDto;
+        const [items, count] = await this.repairRepository.findAndCount({
+            skip: offset,
+            take: pageSize,
+            where: { equipmentId: id },
+        });
+
+        return new RepairPaginatedDto(items, count, paginationDto);
     }
 
     async findOne(id: number) {

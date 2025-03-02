@@ -2,6 +2,7 @@ export type Config = {
     db: DbConfig;
     jwt: TokensConfig;
     admin: AdminConfig;
+    docs: DocsConfig;
 };
 
 export type DbConfig = {
@@ -24,4 +25,14 @@ export type AdminConfig = {
     name: string;
     surname: string;
     middlename: string;
+};
+
+export type DocsConfig = {
+    entryFolder: string;
+    outFolder: string;
+    repairActConfig: RepairActConfig;
+};
+
+export type RepairActConfig = {
+    filename: string;
 };

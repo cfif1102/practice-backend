@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+import { Roles } from '@@types/auth.types';
 import { Expose } from 'class-transformer';
 
 export class EmployeeDto {
@@ -18,4 +19,8 @@ export class EmployeeDto {
     @ApiProperty()
     @Expose()
     middlename: string;
+
+    @ApiProperty()
+    @Expose()
+    role: Roles;
 }

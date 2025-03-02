@@ -1,3 +1,5 @@
+import * as path from 'path';
+
 import { Config } from '@@types/config.types';
 import { cleanEnv, str } from 'envalid';
 
@@ -13,6 +15,9 @@ export const config = (): Config => {
         ADMIN_NAME: str(),
         ADMIN_SURNAME: str(),
         ADMIN_MIDDLENAME: str(),
+        DOCS_ENTRY_FOLDER: str(),
+        DOCS_OUT_FOLDER: str(),
+        DOCS_REPAIR_ACT_DOC_NAME: str(),
     });
 
     return {
@@ -35,6 +40,13 @@ export const config = (): Config => {
             name: env.ADMIN_NAME,
             surname: env.ADMIN_SURNAME,
             middlename: env.ADMIN_MIDDLENAME,
+        },
+        docs: {
+            repairActConfig: {
+                filename: env.DOCS_REPAIR_ACT_DOC_NAME,
+            },
+            entryFolder: path.join(process.cwd(), env.DOCS_ENTRY_FOLDER),
+            outFolder: path.join(process.cwd(), env.DOCS_OUT_FOLDER),
         },
     };
 };

@@ -14,6 +14,7 @@ import { WorkshopModule } from '@workshop/workshop.module';
 import * as cookieParser from 'cookie-parser';
 
 import { StatisticsModule } from './statistics/statistics.module';
+import { DocsModule } from './docs/docs.module';
 
 @Module({
     imports: [
@@ -29,6 +30,7 @@ import { StatisticsModule } from './statistics/statistics.module';
         FaultModule,
         AuthModule,
         StatisticsModule,
+        DocsModule,
     ],
     controllers: [],
     providers: [DbInitializer, StatsInitializer],

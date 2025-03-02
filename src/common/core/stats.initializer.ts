@@ -1,5 +1,6 @@
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 
+import { Repairs } from '@@types/auth.types';
 import { EmployeeService } from '@employee/employee.service';
 import { Employee } from '@employee/entities/employee.entity';
 import { Equipment } from '@equipment/entities/equipment.entity';
@@ -91,6 +92,7 @@ export class StatsInitializer implements OnApplicationBootstrap {
 
     private async initRepairs() {
         const repairCount = await this.repairRepository.count();
+        const types = [Repairs.Operational, Repairs.Medium, Repairs.Major, Repairs.Planned];
 
         if (!repairCount) {
             const start = startOfMonth(new Date());
@@ -128,6 +130,7 @@ export class StatsInitializer implements OnApplicationBootstrap {
                     equipmentId: faker.number.int({ min: 1, max: 100 }),
                     employeeId: faker.number.int({ min: 1, max: 100 }),
                     faults,
+                    type: types[faker.number.int({ min: 0, max: 3 })],
                 });
             }
         }

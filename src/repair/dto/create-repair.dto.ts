@@ -1,7 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+import { Repairs } from '@@types/auth.types';
 import { Type } from 'class-transformer';
-import { IsDate, IsOptional, IsString, IsInt, IsArray, ArrayNotEmpty, ArrayMinSize } from 'class-validator';
+import {
+    IsDate,
+    IsOptional,
+    IsString,
+    IsInt,
+    IsArray,
+    ArrayNotEmpty,
+    ArrayMinSize,
+    IsNotEmpty,
+    IsEnum,
+} from 'class-validator';
 
 export class CreateRepairDto {
     @ApiProperty({ description: 'Дата начала ремонта' })
@@ -14,6 +25,12 @@ export class CreateRepairDto {
     @IsDate()
     @IsOptional()
     endDate?: Date;
+
+    @ApiProperty({ description: 'Тип ремонта' })
+    @IsString()
+    @IsNotEmpty()
+    @IsEnum(Repairs)
+    type: Repairs;
 
     @ApiProperty({ description: 'Выявленная неисправность' })
     @IsString()

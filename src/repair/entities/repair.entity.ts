@@ -1,3 +1,4 @@
+import { Repairs } from '@@types/auth.types';
 import { Employee } from '@employee/entities/employee.entity';
 import { Equipment } from '@equipment/entities/equipment.entity';
 import { Fault } from '@fault/entities/fault.entity';
@@ -13,6 +14,9 @@ export class Repair {
 
     @Column({ nullable: true })
     endDate: Date;
+
+    @Column({ default: Repairs.Operational })
+    type: Repairs;
 
     @Column({ type: 'text' })
     detectedFault: string;

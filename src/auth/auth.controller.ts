@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
     ApiBadRequestResponse,
@@ -9,9 +9,11 @@ import {
     ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
+import { GetUser } from '@common/decorators/extract-user.decorator';
 import { Serialize } from '@common/decorators/serialize.decorator';
 import { CreateEmployeeDto } from '@employee/dto/create-employee.dto';
 import { EmployeeDto } from '@employee/dto/employee.dto';
+import { Employee } from '@employee/entities/employee.entity';
 import { Response } from 'express';
 
 import { AuthService } from './auth.service';
@@ -21,6 +23,16 @@ import { SignInDto } from './dto/sign-in.dto';
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
+
+    @Get('me')
+    @Serialize(EmployeeDto)
+    @ApiOperation({ summary: 'Вернуть текущего авторизованного пользователя' })
+    @ApiOkResponse({ description: 'Authorized user', type: EmployeeDto })
+    @ApiUnauthorizedResponse({ description: 'User not authorized' })
+    @UseGuards(AuthGuard('jwt'))
+    me(@GetUser() user: Employee) {
+        return user;
+    }
 
     @Post('sign-in')
     @ApiOperation({ summary: 'Вход в аккаунт' })
