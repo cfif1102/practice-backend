@@ -27,6 +27,12 @@ export class EquipmentService {
         return await this.equipmentRepository.save(equipment);
     }
 
+    async findMany() {
+        const items = await this.equipmentRepository.find();
+
+        return items;
+    }
+
     async findAll(paginationDto: PaginationDto) {
         const { pageSize, offset } = paginationDto;
         const [items, count] = await this.equipmentRepository.findAndCount({

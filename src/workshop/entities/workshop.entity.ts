@@ -9,6 +9,6 @@ export class Workshop {
     @Column()
     name: string;
 
-    @OneToMany(() => Equipment, (equipment) => equipment.workshop)
+    @OneToMany(() => Equipment, (equipment) => equipment.workshop, { onDelete: 'CASCADE' })
     equipments: Equipment[];
 }

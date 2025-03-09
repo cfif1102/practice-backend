@@ -45,7 +45,7 @@ export class EmployeeController {
         return this.employeeService.findOne(id);
     }
 
-    @Patch()
+    @Patch(':id')
     @ApiOperation({ summary: 'Обновить данные сотрудника по ID' })
     @ApiResponse({
         status: 200,
@@ -55,9 +55,8 @@ export class EmployeeController {
     @ApiResponse({ status: 404, description: 'Сотрудник не найден' })
     @ApiParam({ name: 'id', type: Number, description: 'ID сотрудника' })
     @Serialize(EmployeeDto)
-    @UseGuards(AuthGuard('jwt'))
-    update(@Body() updateEmployeeDto: UpdateEmployeeDto, @GetUser() user: Employee) {
-        return this.employeeService.update(user.id, updateEmployeeDto);
+    update(@Param('id') id: number, @Body() updateEmployeeDto: UpdateEmployeeDto) {
+        return this.employeeService.update(id, updateEmployeeDto);
     }
 
     @Delete(':id')

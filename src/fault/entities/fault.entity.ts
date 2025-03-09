@@ -9,6 +9,6 @@ export class Fault {
     @Column()
     description: string;
 
-    @ManyToOne(() => Repair, (repair) => repair.faults)
+    @ManyToOne(() => Repair, (repair) => repair.faults, { onDelete: 'CASCADE' })
     repair: Repair;
 }

@@ -21,20 +21,20 @@ export class Repair {
     @Column({ type: 'text' })
     detectedFault: string;
 
-    @ManyToOne(() => Employee, (employee) => employee.repairs, { eager: true })
+    @ManyToOne(() => Employee, (employee) => employee.repairs, { eager: true, onDelete: 'CASCADE' })
     @JoinColumn({ name: 'employeeId' })
     employee: Employee;
 
     @Column()
     employeeId: number;
 
-    @ManyToOne(() => Equipment, (equipment) => equipment.repairs, { eager: true })
+    @ManyToOne(() => Equipment, (equipment) => equipment.repairs, { eager: true, onDelete: 'CASCADE' })
     @JoinColumn({ name: 'equipmentId' })
     equipment: Equipment;
 
     @Column()
     equipmentId: number;
 
-    @OneToMany(() => Fault, (fault) => fault.repair)
+    @OneToMany(() => Fault, (fault) => fault.repair, { onDelete: 'CASCADE' })
     faults: Fault[];
 }

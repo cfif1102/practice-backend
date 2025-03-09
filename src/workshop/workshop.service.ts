@@ -22,6 +22,12 @@ export class WorkshopService {
         return await this.workshopRepository.save(workshop);
     }
 
+    async findMany() {
+        const items = await this.workshopRepository.find();
+
+        return items;
+    }
+
     async findAll(paginationDto: PaginationDto) {
         const { pageSize, offset } = paginationDto;
         const [items, count] = await this.workshopRepository.findAndCount({

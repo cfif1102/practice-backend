@@ -22,7 +22,7 @@ export class Employee {
     @Column()
     middlename: string;
 
-    @OneToMany(() => Repair, (repair) => repair.employee)
+    @OneToMany(() => Repair, (repair) => repair.employee, { onDelete: 'CASCADE' })
     repairs: Repair[];
 
     @Column({ default: Roles.Employee })

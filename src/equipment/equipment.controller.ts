@@ -30,11 +30,22 @@ export class EquipmentController {
         return this.equipmentService.create(createEquipmentDto);
     }
 
-    @Get()
+    @Get('/all')
     @ApiOperation({ summary: 'Получить всё оборудование' })
     @ApiResponse({
         status: 200,
-        description: 'Список сотрудников',
+        description: 'Список оборудования',
+        type: [EquipmentDto],
+    })
+    findMany() {
+        return this.equipmentService.findMany();
+    }
+
+    @Get()
+    @ApiOperation({ summary: 'Получить оборудование' })
+    @ApiResponse({
+        status: 200,
+        description: 'Список оборудования',
         type: EquipmentPaginatedDto,
     })
     findAll(@Query() paginationDto: PaginationDto) {

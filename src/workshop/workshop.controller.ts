@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiOperation, ApiResponse, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiParam, ApiTags, ApiOkResponse } from '@nestjs/swagger';
 
 import { Roles } from '@@types/auth.types';
 import { RolesAccept } from '@auth/decorators/roles.decorator';
@@ -18,6 +18,14 @@ import { WorkshopService } from './workshop.service';
 @Controller('workshops')
 export class WorkshopController {
     constructor(private readonly workshopService: WorkshopService) {}
+
+    @Get('/all')
+    @ApiOperation({ summary: 'Список всех цехов' })
+    @ApiOkResponse({ description: 'Все цеха', type: [WorkshopDto] })
+    @Serialize(WorkshopDto)
+    findMany() {
+        return this.workshopService.findMany();
+    }
 
     @Post()
     @ApiOperation({ summary: 'Создать новый цех' })

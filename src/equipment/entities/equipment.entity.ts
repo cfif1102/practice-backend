@@ -28,9 +28,9 @@ export class Equipment {
     @Column()
     workHours: number;
 
-    @OneToMany(() => Repair, (repair) => repair.equipment)
+    @OneToMany(() => Repair, (repair) => repair.equipment, { onDelete: 'CASCADE' })
     repairs: Repair[];
 
-    @ManyToOne(() => Workshop, (workshop) => workshop.equipments, { eager: true })
+    @ManyToOne(() => Workshop, (workshop) => workshop.equipments, { eager: true, onDelete: 'CASCADE' })
     workshop: Workshop;
 }
